@@ -14,7 +14,7 @@ class CAR(Platforms):
   TURBO_RC_CAR = PlatformConfig(
     [CarDocs("turbo rc car", package="All")],
     CarSpecs(mass=9, wheelbase=0.406, steerRatio=0.5, centerToFrontRatio=0.44),
-    dbc_dict('turb_rc_car', None),
+    dbc_dict('turbo_rc_car', None),
   )
 
 
