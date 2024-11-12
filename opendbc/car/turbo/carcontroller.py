@@ -11,10 +11,15 @@ class CarController(CarControllerBase):
   def update(self, CC, CS, now_nanos):
     if CC.enabled:
       print("CarController enabled")
-      
-    # create actuator
-    actuators = CC.actuators.as_builder()
-    # create can sends
+      # create actuator
+    new_actuators = CC.actuators
     can_sends = []
-
-    return actuators, can_sends
+    # create can msg
+    values = {
+      "STEER_ANGLE": 90,
+      "STEER_ENABLE": 1,
+    }
+    print(self.packer)
+    msg = self.packer.make_can_msg("STEER_CMD", 0, values)
+    can_sends.append(msg)
+    return new_actuators, can_sends
