@@ -10,7 +10,7 @@ BO_ 513 TEST_MSG_1: 8 XXX
   SG_ TEST_SIGNAL_7 : 48|8@1+ (1,0) [0|255] ""  Vector__XXX
   SG_ TEST_SIGNAL_8 : 56|8@1+ (1,0) [0|255] ""  Vector__XXX
 
-BO_ 514 STEERING_CMD: 8 XXX
+BO_ 514 STEER_CMD: 8 XXX
   SG_ STEER_ANGLE : 0|16@1+ (0.1,0) [60|120] "degrees" Vector__XXX
   SG_ STEER_ENABLE : 16|1@1+ (1,0) [0|1] "enabled" Vector__XXX
 
