@@ -17,9 +17,11 @@ class CarController(CarControllerBase):
     # create can msg
     values = {
       "STEER_ANGLE": 90,
-      "STEER_ENABLE": 1,
     }
-    print(self.packer)
     msg = self.packer.make_can_msg("STEER_CMD", 1, values)
     can_sends.append(msg)
+    values = {
+      "THROTTLE": 50,
+    }
+    msg = self.packer.make_can_msg("THROTTLE_CMD", 1, values)
     return new_actuators, can_sends
