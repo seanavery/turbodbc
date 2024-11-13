@@ -1,18 +1,7 @@
 VERSION "0.0.01"
 
-BO_ 513 TEST_MSG_1: 8 XXX
-  SG_ TEST_SIGNAL_1 : 0|8@1+ (1,0) [0|255] ""  Vector__XXX
-  SG_ TEST_SIGNAL_2 : 8|8@1+ (1,0) [0|255] ""  Vector__XXX
-  SG_ TEST_SIGNAL_3 : 16|8@1+ (1,0) [0|255] ""  Vector__XXX
-  SG_ TEST_SIGNAL_4 : 24|8@1+ (1,0) [0|255] ""  Vector__XXX
-  SG_ TEST_SIGNAL_5 : 32|8@1+ (1,0) [0|255] ""  Vector__XXX
-  SG_ TEST_SIGNAL_6 : 40|8@1+ (1,0) [0|255] ""  Vector__XXX
-  SG_ TEST_SIGNAL_7 : 48|8@1+ (1,0) [0|255] ""  Vector__XXX
-  SG_ TEST_SIGNAL_8 : 56|8@1+ (1,0) [0|255] ""  Vector__XXX
-
 BO_ 514 STEER_CMD: 2 XXX
   SG_ STEER_ANGLE : 0|16@1+ (1,0) [60|120] "degrees" Vector__XXX
 
-BO_ 515 THROTTLE_CMD: 8 XXX
+BO_ 515 THROTTLE_CMD: 2 XXX
   SG_ THROTTLE : 0|16@1+ (0.1,0) [0|100] "percent" Vector__XXX
-  SG_ THROTTLE_ENABLE : 16|1@1+ (1,0) [0|1] "enabled" Vector__XXX
