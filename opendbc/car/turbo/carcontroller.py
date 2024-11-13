@@ -20,6 +20,6 @@ class CarController(CarControllerBase):
       "STEER_ENABLE": 1,
     }
     print(self.packer)
-    msg = self.packer.make_can_msg("STEER_CMD", 0, values)
+    msg = self.packer.make_can_msg("STEER_CMD", 1, values)
     can_sends.append(msg)
     return new_actuators, can_sends
