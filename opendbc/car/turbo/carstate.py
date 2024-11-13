@@ -11,7 +11,5 @@ class CarState(CarStateBase):
 
   @staticmethod
   def get_can_parser(CP):
-    messages = [
-      ("TEST_MSG_1", 10),
-    ]
+    messages = []
     return CANParser(DBC[CP.carFingerprint]["pt"], messages, 0)
