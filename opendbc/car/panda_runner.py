@@ -10,16 +10,24 @@ class PandaRunner(AbstractContextManager):
   def __enter__(self):
     self.p = Panda()
     self.p.reset()
+    self.p.set_safety_mode(Panda.SAFETY_ALLOUTPUT)
 
     # setup + fingerprinting
-    self.p.set_safety_mode(Panda.SAFETY_ELM327, 1)
+    # self.p.set_safety_mode(Panda.SAFETY_ELM327, 0)
+    print("setting safety mode")
+    # self.p.set_safety_mode(Panda.SAFETY_ALLOUTPUT, 1)
     self.CI = get_car(self._can_recv, self.p.can_send_many, self.p.set_obd, True)
     assert self.CI.CP.carFingerprint.lower() != "mock", "Unable to identify car. Check connections and ensure car is supported."
 
-    safety_model = list(CarParams.SafetyModel).index(self.CI.CP.safetyConfigs[0].safetyModel)
-    self.p.set_safety_mode(Panda.SAFETY_ELM327, 1)
+    # safety_model = list(CarParams.SafetyModel).index(self.CI.CP.safetyConfigs[0].safetyModel)
+    # self.p.set_safety_mode(Panda.SAFETY_ELM327, 1)
+
     self.CI.init(self.CI.CP, self._can_recv, self.p.can_send_many)
-    self.p.set_safety_mode(safety_model, self.CI.CP.safetyConfigs[0].safetyParam)
+    # self.p.set_safety_mode(safety_model, self.CI.CP.safetyConfigs[0].safetyParam)
+    
+    # while True:
+    #   time.sleep(0.1)
+    #   self.p.can_send(0x123, b'hello', 1)
 
     return self
 
@@ -45,10 +53,12 @@ class PandaRunner(AbstractContextManager):
     return cs
 
   def write(self, cc: CarControl) -> None:
+    # self.p.can_send(0x123, b'hello', 1)
     if cc.enabled and not self.p.health()['controls_allowed']:
       # prevent the car from faulting. print a warning?
       cc = CarControl(enabled=False)
     _, can_sends = self.CI.apply(cc)
+    print(can_sends)
     self.p.can_send_many(can_sends, timeout=25)
     self.p.send_heartbeat()
 
