@@ -9,12 +9,11 @@ class CarController(CarControllerBase):
     self.packer = CANPacker(dbc_name)
 
   def update(self, CC, CS, now_nanos):
+    print(CC)
     if CC.enabled:
       print("CarController enabled")
-      # create actuator
     new_actuators = CC.actuators
     can_sends = []
-    # create can msg
     values = {
       "STEER_ANGLE": 90,
     }
@@ -24,4 +23,5 @@ class CarController(CarControllerBase):
       "THROTTLE": 50,
     }
     msg = self.packer.make_can_msg("THROTTLE_CMD", 1, values)
+    can_sends.append(msg)
     return new_actuators, can_sends
