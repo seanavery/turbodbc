@@ -34,4 +34,4 @@ class CarController(CarControllerBase):
 
   # normalize steer from (-1.0, 1.0) to (60, 120)
   def normalize_steer(self, steer):
-    return int(90 + steer * 30)
+    return int(90 + steer * -30) # need to flip the sign
