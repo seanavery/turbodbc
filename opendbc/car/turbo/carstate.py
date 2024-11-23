@@ -7,6 +7,7 @@ from opendbc.car.turbo.values import DBC
 class CarState(CarStateBase):
   def update(self, cp, *_) -> structs.CarState:
     ret = structs.CarState()
+    ret.cruiseState.enabled = True
     return ret
 
   @staticmethod
