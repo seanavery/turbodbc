@@ -1,0 +1,46 @@
+name: Sync upstream opendbc into turbo branch
+
+on:
+  # Run once every hour
+  schedule:
+    - cron: '0 * * * *'
+  # Allows you to manually trigger the workflow from the "Actions" tab
+  workflow_dispatch:
+
+jobs:
+  sync-upstream:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v3
+        with:
+          repository: seanavery/turbodbc
+          ref: turbo
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream
+        run: |
+          git remote add upstream https://github.com/commaai/opendbc.git
+          git fetch upstream master
+
+      - name: Create local branch from upstream master
+        run: |
+          git checkout -b upstream-master upstream/master
+
+      - name: Push branch to origin
+        run: |
+          git push origin upstream-master --force
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: turbo
+          head: upstream-master
+          title: "Sync from upstream master"
+          body: "Automatic PR to merge changes from upstream master into turbo branch."
