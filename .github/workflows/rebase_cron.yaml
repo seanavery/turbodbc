@@ -1,45 +1,50 @@
 name: Sync upstream opendbc into turbo branch
 
 on:
-  # Run once every hour
   schedule:
     - cron: '0 * * * *'
-  # Allows you to manually trigger the workflow from the "Actions" tab
   workflow_dispatch:
+
+# You can keep contents:write but it won't let you push workflows with GITHUB_TOKEN from a fork
+permissions:
+  contents: write
 
 jobs:
   sync-upstream:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout fork
+      - name: Check out fork
         uses: actions/checkout@v3
         with:
           repository: seanavery/turbodbc
           ref: turbo
+          # Use your personal access token
+          token: ${{ secrets.PAT }}
+          persist-credentials: false
 
-      - name: Configure git
+      - name: Set up Git config
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Add upstream
+      - name: Add upstream and fetch
         run: |
           git remote add upstream https://github.com/commaai/opendbc.git
           git fetch upstream master
 
-      - name: Create local branch from upstream master
+      - name: Create local upstream-master
         run: |
           git checkout -b upstream-master upstream/master
 
-      - name: Push branch to origin
+      - name: Push to fork
         run: |
+          # This will succeed now because we are using a PAT with workflow permissions
           git push origin upstream-master --force
 
-      - name: Create pull request
+      - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           base: turbo
           head: upstream-master
           title: "Sync from upstream master"
