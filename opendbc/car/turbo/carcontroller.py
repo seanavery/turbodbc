@@ -1,5 +1,3 @@
-import numpy as np
-
 from opendbc.can.packer import CANPacker
 from opendbc.car import Bus
 from opendbc.car.interfaces import CarControllerBase
@@ -29,7 +27,7 @@ class CarController(CarControllerBase):
     msg = self.packer.make_can_msg("THROTTLE_CMD", 1, values)
     can_sends.append(msg)
     return new_actuators, can_sends
- 
+
   # noramlize accel from (-4.0,4.0) to (-100, 100)
   def normalize_accel(self, accel):
     return int(accel * 25)
