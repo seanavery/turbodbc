@@ -88,8 +88,10 @@ def main(joystick):
       p.read()
       p.write(CC)
 
-      # 100Hz
-      time.sleep(0.01)
+      # 10Hz
+      # TODO(simcity): Figure out why 100Hz gives ack errors
+      time.sleep(0.1)
+
 
 
 if __name__ == '__main__':
