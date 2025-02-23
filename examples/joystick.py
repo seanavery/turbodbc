@@ -88,9 +88,8 @@ def main(joystick):
       p.read()
       p.write(CC)
 
-      # 10Hz
-      # TODO(simcity): Figure out why 100Hz gives ack errors
-      time.sleep(0.1)
+      # 100hz
+      time.sleep(0.01)
 
 
 
