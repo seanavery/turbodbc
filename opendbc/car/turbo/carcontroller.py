@@ -13,8 +13,9 @@ class CarController(CarControllerBase):
 
     new_actuators = CC.actuators
     can_sends = []
-    if CC.enabled:
-      steering_val = self.normalize_steer(CC.actuators.steer)
+    # if CC.enabled:
+    if True:
+      steering_val = self.normalize_steer(CC.actuators.torque)
       values = {
         "STEER_ANGLE": steering_val,
       }
