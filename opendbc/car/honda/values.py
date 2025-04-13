@@ -8,7 +8,7 @@ from opendbc.car.fw_query_definitions import FwQueryConfig, Request, StdQueries,
 
 Ecu = structs.CarParams.Ecu
 VisualAlert = structs.CarControl.HUDControl.VisualAlert
-
+GearShifter = structs.CarState.GearShifter
 
 class CarControllerParams:
   # Allow small margin below -3.5 m/s^2 from ISO 15622:2018 since we
@@ -45,6 +45,13 @@ class CarControllerParams:
     assert(CP.lateralParams.torqueBP[0] == 0)
     self.STEER_LOOKUP_BP = [v * -1 for v in CP.lateralParams.torqueBP][1:][::-1] + list(CP.lateralParams.torqueBP)
     self.STEER_LOOKUP_V = [v * -1 for v in CP.lateralParams.torqueV][1:][::-1] + list(CP.lateralParams.torqueV)
+
+
+class HondaSafetyFlags(IntFlag):
+  ALT_BRAKE = 1
+  BOSCH_LONG = 2
+  NIDEC_ALT = 4
+  RADARLESS = 8
 
 
 class HondaFlags(IntFlag):
@@ -248,7 +255,7 @@ class CAR(Platforms):
   HONDA_PILOT = HondaNidecPlatformConfig(
     [
       HondaCarDocs("Honda Pilot 2016-22", min_steer_speed=12. * CV.MPH_TO_MS),
-      HondaCarDocs("Honda Passport 2019-23", "All", min_steer_speed=12. * CV.MPH_TO_MS),
+      HondaCarDocs("Honda Passport 2019-25", "All", min_steer_speed=12. * CV.MPH_TO_MS),
     ],
     CarSpecs(mass=4278 * CV.LB_TO_KG, wheelbase=2.86, centerToFrontRatio=0.428, steerRatio=16.0, tireStiffnessFactor=0.444),  # as spec
     radar_dbc_dict('acura_ilx_2016_can_generated'),

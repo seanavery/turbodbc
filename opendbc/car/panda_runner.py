@@ -13,15 +13,22 @@ class PandaRunner(AbstractContextManager):
     self.p.set_safety_mode(Panda.SAFETY_ALLOUTPUT)
 
     # setup + fingerprinting
+    self.p.set_safety_mode(CarParams.SafetyModel.elm327, 1)
     self.CI = get_car(self._can_recv, self.p.can_send_many, self.p.set_obd, True)
     assert self.CI.CP.carFingerprint.lower() != "mock", "Unable to identify car. Check connections and ensure car is supported."
 
+    safety_model = self.CI.CP.safetyConfigs[0].safetyModel
+    self.p.set_safety_mode(CarParams.SafetyModel.elm327, 1)
     self.CI.init(self.CI.CP, self._can_recv, self.p.can_send_many)
+    # hardcoding to turbo safety for now
+    # TODO(simcity): unwrap enum value from safetyConfigs
+    self.p.set_safety_mode(CarParams.SafetyModel.turbo, self.CI.CP.safetyConfigs[0].safetyParam)
+
 
     return self
 
   def __exit__(self, exc_type, exc_value, traceback):
-    self.p.set_safety_mode(Panda.SAFETY_NOOUTPUT)
+    self.p.set_safety_mode(CarParams.SafetyModel.noOutput)
     self.p.reset()  # avoid siren
     return super().__exit__(exc_type, exc_value, traceback)
 
@@ -46,6 +53,7 @@ class PandaRunner(AbstractContextManager):
       # prevent the car from faulting. print a warning?
       cc = CarControl(enabled=False)
     _, can_sends = self.CI.apply(cc)
+    print("sending can msg", can_sends)
     self.p.can_send_many(can_sends, timeout=25)
     self.p.send_heartbeat()
 
