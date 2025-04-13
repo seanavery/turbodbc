@@ -4,13 +4,12 @@ from contextlib import AbstractContextManager
 from panda import Panda
 from opendbc.car.car_helpers import get_car
 from opendbc.car.can_definitions import CanData
-from opendbc.car.structs import CarControl
+from opendbc.car.structs import CarParams, CarControl
 
 class PandaRunner(AbstractContextManager):
   def __enter__(self):
     self.p = Panda()
     self.p.reset()
-    self.p.set_safety_mode(Panda.SAFETY_ALLOUTPUT)
 
     # setup + fingerprinting
     self.p.set_safety_mode(CarParams.SafetyModel.elm327, 1)
