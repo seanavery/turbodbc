@@ -22,7 +22,7 @@ static safety_config turbo_init(uint16_t param) {
   // Allow all incoming CAN msgs
   static RxCheck turbo_rx_checks[] = {};
   // THROTTLE_CMD and STEER_CMD allowed
-  static const CanMsg TURBO_TX_MSGS[] = {{0x203, 1, 2, false }, {0x202, 1, 2, false}};
+  static const CanMsg TURBO_TX_MSGS[] = {{0x203, 1, 2, .check_relay = false }, {0x202, 1, 2, .check_relay = false}};
 
   // allow controls pls
   controls_allowed = true;

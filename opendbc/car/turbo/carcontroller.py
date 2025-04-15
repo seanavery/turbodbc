@@ -9,12 +9,9 @@ class CarController(CarControllerBase):
     self.packer = CANPacker(dbc_names[Bus.main])
 
   def update(self, CC, CS, now_nanos):
-    # print(CC)
-
     new_actuators = CC.actuators
     can_sends = []
-    # if CC.enabled:
-    if True:
+    if CC.enabled:
       steering_val = self.normalize_steer(CC.actuators.torque)
       values = {
         "STEER_ANGLE": steering_val,

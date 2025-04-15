@@ -8,6 +8,8 @@ class CarState(CarStateBase):
   def update(self, cp, *_) -> structs.CarState:
     ret = structs.CarState()
     ret.cruiseState.enabled = True
+    ret.cruiseState.available = True
+
     return ret
 
   @staticmethod
