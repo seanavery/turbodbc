@@ -10,6 +10,7 @@ jobs:
   tests:
     name: ./test.sh
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -24,6 +25,7 @@ jobs:
   safety_tests:
     name: safety
     runs-on: ${{ github.repository == 'commaai/opendbc' && 'namespace-profile-amd64-8x16' || 'ubuntu-latest' }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
