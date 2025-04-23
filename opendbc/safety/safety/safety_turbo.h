@@ -24,9 +24,6 @@ static safety_config turbo_init(uint16_t param) {
   // THROTTLE_CMD and STEER_CMD allowed
   static const CanMsg TURBO_TX_MSGS[] = {{0x203, 1, 2, .check_relay = false }, {0x202, 1, 2, .check_relay = false}};
 
-  // allow controls pls
-  controls_allowed = true;
-
   UNUSED(param);
   return BUILD_SAFETY_CFG(turbo_rx_checks, TURBO_TX_MSGS);
 }
