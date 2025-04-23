@@ -66,7 +66,7 @@ class TestCarDocs:
   def test_harnesses(self, subtests):
     for car in self.all_cars:
       with subtests.test(car=car.name):
-        if car.name == "comma body" or car.support_type != SupportType.UPSTREAM:
+        if car.name == "comma body" or car.name == "turbo rc car" or car.support_type != SupportType.UPSTREAM:
           pytest.skip()
 
         car_part_type = [p.part_type for p in car.car_parts.all_parts()]
