@@ -19,6 +19,16 @@ class TestTurbo(common.PandaSafetyTest):
   def test_fwd_hook(self):
     print("skipping fwd_hook test")
 
+  def test_rx_hook(self):
+    self.assertFalse(self.safety.get_controls_allowed())
+
+    # Send a CAN message with ID 0x201 to trigger rx_hook
+    msg = common.make_msg(1, 0x265, 8)
+    self.assertTrue(self._rx(msg))  # Ensure rx_hook processes the message
+
+    # Additional checks to verify controls_allowed behavior
+    self.assertTrue(self.safety.get_controls_allowed())
+
   def test_tx_hook(self):
     # create throttle message
     values = {"THROTTLE": 0}
