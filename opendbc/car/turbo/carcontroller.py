@@ -11,7 +11,8 @@ class CarController(CarControllerBase):
   def update(self, CC, CS, now_nanos):
     new_actuators = CC.actuators
     can_sends = []
-    if CC.enabled:
+    # if CC.enabled:
+    if True:
       steering_val = self.normalize_steer(CC.actuators.torque)
       values = {
         "STEER_ANGLE": steering_val,
