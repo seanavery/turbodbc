@@ -23,6 +23,7 @@ non_tested_cars = [
   GM.CADILLAC_ATS,
   GM.HOLDEN_ASTRA,
   GM.CHEVROLET_MALIBU,
+  TURBO.TURBO_RC_CAR,
   HYUNDAI.GENESIS_G90,
   HONDA.HONDA_ODYSSEY_CHN,
   VOLKSWAGEN.VOLKSWAGEN_CRAFTER_MK2,  # need a route from an ACC-equipped Crafter
@@ -41,7 +42,7 @@ class CarTestRoute(NamedTuple):
 routes = [
   CarTestRoute("efdf9af95e71cd84|2022-05-13--19-03-31", COMMA.COMMA_BODY),
   # TODO(simcity): add a real reoute somehow for turbo rc car
-  CarTestRoute("efdf9af95e71cd84|2022-05-13--19-03-31", TURBO.TURBO_RC_CAR),
+  # CarTestRoute("efdf9af95e71cd84|2022-05-13--19-03-31", TURBO.TURBO_RC_CAR),
 
   CarTestRoute("0c94aa1e1296d7c6|2021-05-05--19-48-37", CHRYSLER.JEEP_GRAND_CHEROKEE),
   CarTestRoute("91dfedae61d7bd75|2021-05-22--20-07-52", CHRYSLER.JEEP_GRAND_CHEROKEE_2019),

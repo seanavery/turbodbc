@@ -9,7 +9,6 @@ class CarState(CarStateBase):
     ret = structs.CarState()
     ret.cruiseState.enabled = True
     ret.cruiseState.available = True
-    ret.standstill = False
 
     return ret
 
