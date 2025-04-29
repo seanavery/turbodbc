@@ -3,13 +3,14 @@ name: tests
 on:
   push:
     branches:
-      - master
+      - turbo
   pull_request:
 
 jobs:
   tests:
     name: ./test.sh
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -17,21 +18,21 @@ jobs:
           - os: ${{ github.repository == 'commaai/opendbc' && 'namespace-profile-amd64-8x16' || 'ubuntu-24.04' }}
           - os: macos-latest
     steps:
-    - uses: commaai/timeout@v1
     - uses: actions/checkout@v4
     - run: ./test.sh
 
   safety_tests:
     name: safety
     runs-on: ${{ github.repository == 'commaai/opendbc' && 'namespace-profile-amd64-8x16' || 'ubuntu-latest' }}
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
         flags: ['', '--ubsan']
     steps:
-    - uses: commaai/timeout@v1
     - uses: actions/checkout@v4
     - name: Run safety tests
+      timeout-minutes: 5
       run: ./opendbc/safety/tests/test.sh ${{ matrix.flags }}
 
   misra_linter:
@@ -51,7 +52,7 @@ jobs:
             cppcheck-cache-${{ runner.os }}-${{ github.ref }}
             cppcheck-cache-${{ runner.os }}-
       - name: Run MISRA C:2012 analysis
-        timeout-minutes: ${{ ((steps.restore-scons-cache.outputs.cache-hit == 'true') && 1 || 2) }}
+        timeout-minutes: ${{ ((steps.restore-scons-cache.outputs.cache-hit == 'true') && 2 || 4) }}
         run: cd opendbc/safety/tests/misra && ./test_misra.sh
       - name: Save cppcheck cache
         uses: actions/cache@v4
@@ -76,7 +77,7 @@ jobs:
             cppcheck-cache-${{ runner.os }}-${{ github.ref }}
             cppcheck-cache-${{ runner.os }}-
       - name: MISRA mutation tests
-        timeout-minutes: 1
+        timeout-minutes: 10
         run: |
           source setup.sh
           scons -j8

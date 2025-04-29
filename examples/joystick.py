@@ -88,8 +88,9 @@ def main(joystick):
       p.read()
       p.write(CC)
 
-      # 100Hz
+      # 100hz
       time.sleep(0.01)
+
 
 
 if __name__ == '__main__':
