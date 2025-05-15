@@ -19,13 +19,15 @@ static bool turbo_tx_hook(const CANPacket_t *to_send) {
 }
 
 static safety_config turbo_init(uint16_t param) {
-  // Allow all incoming CAN msgs
   static RxCheck turbo_rx_checks[] = {
     {.msg = {{0x265, 1, 8, .ignore_checksum = true, .ignore_counter = true, .frequency = 100U}, { 0 }, { 0 }}},
   };
 
-  // THROTTLE_CMD and STEER_CMD allowed
-  static const CanMsg TURBO_TX_MSGS[] = {{0x203, 1, 2, .check_relay = false }, {0x202, 1, 2, .check_relay = false}};
+  static const CanMsg TURBO_TX_MSGS[] = {
+    {0x202, 1, 2, .check_relay = false}, // steer
+    {0x203, 1, 2, .check_relay = false}, // throttle
+    {0x204, 1, 2, .check_relay = false}, // headlights
+  };
 
   UNUSED(param);
   return BUILD_SAFETY_CFG(turbo_rx_checks, TURBO_TX_MSGS);
