@@ -24,6 +24,14 @@ class CarController(CarControllerBase):
       }
       msg = self.packer.make_can_msg("THROTTLE_CMD", 1, values)
       can_sends.append(msg)
+      if CC.leftBlinker:
+        print("left blinker")
+        msg = self.packer.make_can_msg("TOGGLE_HEADLIGHTS", 1, {"HEADLIGHTS_TOGGLE": 1})
+        can_sends.append(msg)
+      elif CC.rightBlinker:
+        print("right blinker")
+        msg = self.packer.make_can_msg("TOGGLE_HEADLIGHTS", 1, {"HEADLIGHTS_TOGGLE": 0})
+        can_sends.append(msg)
     return new_actuators, can_sends
 
   # noramlize accel from (-4.0,4.0) to (-100, 100)
