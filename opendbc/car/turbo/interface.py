@@ -10,7 +10,7 @@ class CarInterface(CarInterfaceBase):
 
   @staticmethod
   def _get_params(ret: structs.CarParams, candidate, fingerprint, car_fw, experimental_long, docs) -> structs.CarParams:
-    ret.notCar = True
+    # ret.notCar = True
     ret.brand = "turbo"
     ret.safetyConfigs = [get_safety_config(structs.CarParams.SafetyModel.turbo)]
 
@@ -18,6 +18,7 @@ class CarInterface(CarInterfaceBase):
     ret.maxLateralAccel = math.inf
     ret.steerLimitTimer = 1.0
     ret.steerActuatorDelay = 0.
+    ret.steerAtStandstill = True
 
     ret.radarUnavailable = True
     ret.openpilotLongitudinalControl = True

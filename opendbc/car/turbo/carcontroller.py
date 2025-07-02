@@ -12,7 +12,8 @@ class CarController(CarControllerBase):
     new_actuators = CC.actuators
     can_sends = []
     if CC.enabled:
-      steering_val = self.normalize_steer(CC.actuators.torque)
+      steering_val = self.normalize_steer(CC.actuators.steeringAngleDeg)
+      print("actuators.steeringAngleDeg: ", CC.actuators.steeringAngleDeg)
       values = {
         "STEER_ANGLE": steering_val,
       }
@@ -23,7 +24,7 @@ class CarController(CarControllerBase):
         "THROTTLE": throttle_val,
       }
       msg = self.packer.make_can_msg("THROTTLE_CMD", 1, values)
-      can_sends.append(msg)
+      # can_sends.append(msg)
       if CC.leftBlinker:
         print("left blinker")
         msg = self.packer.make_can_msg("TOGGLE_HEADLIGHTS", 1, {"HEADLIGHTS_TOGGLE": 1})
@@ -40,4 +41,4 @@ class CarController(CarControllerBase):
 
   # normalize steer from (-1.0, 1.0) to (60, 120)
   def normalize_steer(self, steer):
-    return int(90 + steer * -30) # need to flip the sign
+    return int(90 + steer*2* -30) # need to flip the sign
