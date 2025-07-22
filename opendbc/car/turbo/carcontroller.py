@@ -1,44 +1,52 @@
 from opendbc.can.packer import CANPacker
-from opendbc.car import Bus
+from opendbc.car import Bus, apply_std_steer_angle_limits
 from opendbc.car.interfaces import CarControllerBase
+from opendbc.car.turbo.values import CarControllerParams
 
 class CarController(CarControllerBase):
   def __init__(self, dbc_names, CP):
     super().__init__(dbc_names, CP)
     print("dbc_names: ", dbc_names)
     self.packer = CANPacker(dbc_names[Bus.main])
+    self.apply_angle_last = 0.0
 
   def update(self, CC, CS, now_nanos):
-    new_actuators = CC.actuators
+    actuators = CC.actuators
     can_sends = []
+
     if CC.enabled:
-      steering_val = self.normalize_steer(CC.actuators.steeringAngleDeg)
-      print("actuators.steeringAngleDeg: ", CC.actuators.steeringAngleDeg)
+      # Apply steering angle limits and rate limiting
+      # self.apply_angle_last = apply_std_steer_angle_limits(
+      #   actuators.steeringAngleDeg,
+      #   self.apply_angle_last,
+      #   CS.out.vEgo,
+      #   CS.out.steeringAngleDeg,
+      #   CC.latActive,
+      #   CarControllerParams.ANGLE_LIMITS
+      # )
+
+      self.apply_angle_last = CC.actuators.steeringAngleDeg
+      steering_val = self.angle_to_servo(self.apply_angle_last)
       values = {
         "STEER_ANGLE": steering_val,
       }
-      msg = self.packer.make_can_msg("STEER_CMD", 1, values)
-      can_sends.append(msg)
-      throttle_val = self.normalize_accel(CC.actuators.accel)
-      values = {
-        "THROTTLE": throttle_val,
-      }
-      msg = self.packer.make_can_msg("THROTTLE_CMD", 1, values)
-      # can_sends.append(msg)
-      if CC.leftBlinker:
-        print("left blinker")
-        msg = self.packer.make_can_msg("TOGGLE_HEADLIGHTS", 1, {"HEADLIGHTS_TOGGLE": 1})
+      msg = self.packer.make_can_msg("STEER_CMD", 1, {"STEER_ANGLE": steering_val})
+      if self.frame % 2 == 0:
         can_sends.append(msg)
-      elif CC.rightBlinker:
-        print("right blinker")
-        msg = self.packer.make_can_msg("TOGGLE_HEADLIGHTS", 1, {"HEADLIGHTS_TOGGLE": 0})
-        can_sends.append(msg)
+
+    new_actuators = actuators.as_builder()
+    new_actuators.steeringAngleDeg = self.apply_angle_last
+
+    self.frame += 1
+
     return new_actuators, can_sends
 
-  # noramlize accel from (-4.0,4.0) to (-100, 100)
+  # normalze from (-90, 90) to (0, 255)
+  def angle_to_servo(self, steering_angle_deg):
+    steering_angle_deg = float(steering_angle_deg) * -1.0
+    servo_units = (steering_angle_deg + 90) / 180 * 255
+    return int(servo_units)
+
+  # normalize accel from (-4.0,4.0) to (-100, 100)
   def normalize_accel(self, accel):
     return int(accel * 25)
-
-  # normalize steer from (-1.0, 1.0) to (60, 120)
-  def normalize_steer(self, steer):
-    return int(90 + steer*2* -30) # need to flip the sign
