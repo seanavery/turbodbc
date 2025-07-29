@@ -21,11 +21,8 @@ static bool turbo_tx_hook(const CANPacket_t *to_send) {
 static safety_config turbo_init(uint16_t param) {
   static RxCheck turbo_rx_checks[] = {
     {.msg = {{0x205, 1, 1, .ignore_checksum = true, .ignore_counter = true, .frequency = 25U}, { 0 }, { 0 }}}, // CRUISE_ENABLE
-   {.msg = {{0x206, 1, 1, .ignore_checksum = true, .ignore_counter = true, .frequency = 25U}, { 0 }, { 0 }}}, // STEER
-    {.msg = {{0x207, 1, 2, .ignore_checksum = true, .ignore_counter = true, .frequency = 25U}, { 0 }, { 0 }}}, // SPEED
     {.msg = {{0x208, 1, 2, .ignore_checksum = true, .ignore_counter = true, .frequency = 25U}, { 0 }, { 0 }}}, // STEER
     {.msg = {{0x209, 1, 2, .ignore_checksum = true, .ignore_counter = true, .frequency = 25U}, { 0 }, { 0 }}}, // STEER_16
-
   };
 
   static const CanMsg TURBO_TX_MSGS[] = {
