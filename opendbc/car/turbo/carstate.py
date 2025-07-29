@@ -14,10 +14,10 @@ class CarState(CarStateBase):
     ret.cruiseState.enabled = cp.vl["CRUISE_ENABLE"]["ENABLE"] == 1
     ret.cruiseState.available = True
     ret.gearShifter = structs.CarState.GearShifter.drive
-    ret.vEgo = cp.vl["SPEED"]["SPEED"]
-    steer_angle = cp.vl["STEER_ANGLE"]["STEER_ANGLE"]
-    # normalize steer angle from (0, 255) to (-90, 90)
-    steer_angle = (steer_angle - 127.5) / 127.5 * 90.0
+    ret.vEgo = cp.vl["SPEED_16"]["SPEED_16"] / 100.0
+    steer_angle = cp.vl["STEER_16"]["STEER_16"]
+    steer_angle = steer_angle / -100.0
+    print(f"CarState Steering Angle: {steer_angle}")
     ret.steeringAngleDeg = steer_angle
 
     return ret
@@ -26,8 +26,7 @@ class CarState(CarStateBase):
   def get_can_parsers(CP):
     messages = [
       ("CRUISE_ENABLE", 25),
-      ("STEER_ANGLE", 25),
-      ("SPEED", 25),
+      ("SPEED_16", 25),
       ("STEER_16", 25),
     ]
     return {Bus.main: CANParser(DBC[CP.carFingerprint][Bus.main], messages, 1)}

@@ -41,11 +41,9 @@ class CarController(CarControllerBase):
 
     return new_actuators, can_sends
 
-  # normalze from (-90, 90) to (0, 255)
   def angle_to_servo(self, steering_angle_deg):
-    steering_angle_deg = float(steering_angle_deg) * -1.0
-    servo_units = (steering_angle_deg + 90) / 180 * 255
-    return int(servo_units)
+    # normalize from (-90, 90) to (-9000, 9000)
+    return int(steering_angle_deg * -100.0)
 
   # normalize accel from (-4.0,4.0) to (-100, 100)
   def normalize_accel(self, accel):

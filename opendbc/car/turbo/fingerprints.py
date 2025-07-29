@@ -7,8 +7,7 @@ Ecu = CarParams.Ecu
 FINGERPRINTS = {
   CAR.TURBO_RC_CAR: [{
     517: 1, # CRUISE_ENABLE
-    518: 1, # STEER_ANGLE
-    519: 1, # SPEED
+    521: 2, # SPEED_16
     520: 2  # STEER_16
   }],
 }

@@ -1,7 +1,7 @@
 VERSION "0.0.01"
 
-BO_ 514 STEER_CMD: 1 XXX
-  SG_ STEER_ANGLE : 0|8@1+ (1,0) [0|255] "steering wheel angle" Vector__XXX
+BO_ 514 STEER_CMD: 2 XXX
+  SG_ STEER_ANGLE : 0|16@1- (1,0) [-9000|9000] "steering wheel angle" Vector__XXX
 
 BO_ 515 THROTTLE_CMD: 2 XXX
   SG_ THROTTLE : 0|16@1- (1,0) [-10000|10000] "throttle" Vector__XXX
@@ -16,7 +16,10 @@ BO_ 518 STEER_ANGLE: 1 XXX
  SG_ STEER_ANGLE : 0|8@1+ (1,0) [0|255] "servo_units"  Vector__XXX
 
 BO_ 519 SPEED: 1 XXX
- SG_ SPEED : 0|8@1+ (1,0) [0|255] "meters per second"  Vector__XXX
+ SG_ SPEED : 0|16@1+ (1,0) [0|6000] "meters per second"  Vector__XXX
 
 BO_ 520 STEER_16: 2 XXX
- SG_ STEER_16 : 0|16@1+ (1,0) [0|1800] "steering angle"  Vector__XXX
+ SG_ STEER_16 : 0|16@1- (1,0) [-9000|9000] "steering angle"  Vector__XXX
+
+BO_ 521 SPEED_16: 1 XXX
+ SG_ SPEED_16 : 0|16@1+ (1,0) [0|6000] "centimeters per second"  Vector__XXX
