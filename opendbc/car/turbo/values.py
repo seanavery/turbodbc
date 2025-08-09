@@ -17,8 +17,8 @@ class CAR(Platforms):
   TURBO_RC_CAR = PlatformConfig(
     [CarDocs("turbo rc car", package="All")],
     # TODO: use real CarSpecs not model Y clone
-    # CarSpecs(mass=9, wheelbase=0.406, steerRatio=, centerToFrontRatio=0.44),
-    CarSpecs(mass=2072., wheelbase=2.890, steerRatio=3.0),
+    # CarSpecs(mass=2072., wheelbase=2.890, steerRatio=3.0),
+    CarSpecs(mass=9, wheelbase=0.406, steerRatio=6, centerToFrontRatio=0.44),
     {Bus.main: 'turbo_rc_car'},
   )
 
