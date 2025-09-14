@@ -16,9 +16,10 @@ class CarControllerParams:
 class CAR(Platforms):
   TURBO_RC_CAR = PlatformConfig(
     [CarDocs("turbo rc car", package="All")],
-    # TODO: use real CarSpecs not model Y clone
-    # CarSpecs(mass=2072., wheelbase=2.890, steerRatio=3.0),
-    CarSpecs(mass=9, wheelbase=0.406, steerRatio=6, centerToFrontRatio=0.44),
+    # Steering wheel range += 180 deg
+    # Servo range += 30 deg
+    # servo to wheel ratio = 3
+    CarSpecs(mass=9, wheelbase=0.3302, steerRatio=180/30*3),
     {Bus.main: 'turbo_rc_car'},
   )
 
